@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.name }}-svc
+  namespace: {{ .Values.namespace }}
+spec:
+  type: LoadBalancer
+  selector:
+    app: {{ .Values.name }}
+  ports:
+    - protocol: TCP
+      name: port-1
+      port: 4000
+      targetPort: 4000
+    - protocol: TCP
+      name: port-2
+      port: 54002
+      targetPort: 54002
+    - protocol: TCP
+      name: port-44
+      port: 54001
+      targetPort: 54001
+    - protocol: TCP
+      name: port-442
+      port: 54003
+      targetPort: 54003
+    - protocol: TCP
+      name: port-23213
+      port: 54004
+      targetPort: 54004
+    - protocol: TCP
+      name: port-244
+      port: 54008
+      targetPort: 54008
+    - protocol: TCP
+      port: 80
+      name: port-3  
+      targetPort: 80
+    - protocol: TCP
+      port: 53312
+      name: port-5
+      targetPort: 53312
+    - protocol: TCP
+      port: 53310
+      name: port-4
+      targetPort: 53310

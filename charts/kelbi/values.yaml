@@ -1,0 +1,6 @@
+namespace: kelbi
+name: kelbi
+image:
+  repository: ghcr.io/invasor-de-fronteiras/kelbi
+  tag: "v1.1.2"
+secretName: kelbi
