@@ -1,0 +1,30 @@
+---
+{{- if .Values.launcherServer.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: {{ template "kelbi.namespace" }}
+  name: {{ template "kelbi.fullname" }}-launcherserver
+  labels:
+    app: {{ template "kelbi.name" }}-launcherserver
+spec:
+  selector:
+    matchLabels:
+      app: {{ template "kelbi.name" }}-launcherserver
+  template:
+    metadata:
+      labels:
+        app: {{ template "kelbi.name" }}-launcherserver
+    spec:
+      volumes:
+        - name: configjson
+          secret:
+            secretName: {{ .Values.launcherServer.secretName }}
+      containers:
+      - name: launcherserver
+        image: {{ .Values.launcherServer.image.repository }}:{{ .Values.launcherServer.image.tag }}
+        volumeMounts:
+          - name: configjson
+            readOnly: true
+            mountPath: "/etc/config"
+{{- end -}}

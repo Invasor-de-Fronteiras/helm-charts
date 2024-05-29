@@ -1,6 +1,18 @@
-namespace: kelbi
-name: kelbi
-image:
-  repository: ghcr.io/invasor-de-fronteiras/kelbi
-  tag: "v1.1.2"
-secretName: kelbi
+## Provide a name in place of kube-prometheus-stack for `app:` labels
+##
+nameOverride: ""
+
+## Override the deployment namespace
+##
+namespaceOverride: ""
+
+## Provide a name to substitute for the full names of resources
+##
+fullnameOverride: ""
+
+launcherServer:
+  enabled: true
+  secretName: ""
+  image:
+    repository: "ghcr.io/invasor-de-fronteiras/kelbi"
+    tag: "v1.1.2"
