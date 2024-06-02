@@ -3,6 +3,16 @@ entries:
   kelbi:
   - apiVersion: v2
     appVersion: 1.16.0
+    created: "2024-06-02T14:54:05.586894414Z"
+    description: A Helm chart for Kubernetes
+    digest: 728aefa0dbf7ab70e260394cc38fa74f99f9b880d31f02291eb9ae536b097ec5
+    name: kelbi
+    type: application
+    urls:
+    - https://github.com/Invasor-de-Fronteiras/helm-charts/releases/download/kelbi-0.3.1/kelbi-0.3.1.tgz
+    version: 0.3.1
+  - apiVersion: v2
+    appVersion: 1.16.0
     created: "2024-05-29T02:48:37.648179343Z"
     description: A Helm chart for Kubernetes
     digest: e99403b4c1a700c95b3b5bb755f6fcd72053d6a0f0bea1e9ab59554bc62b254b
@@ -11,4 +21,4 @@ entries:
     urls:
     - https://github.com/Invasor-de-Fronteiras/helm-charts/releases/download/kelbi-0.2.1/kelbi-0.2.1.tgz
     version: 0.2.1
-generated: "2024-05-29T02:48:37.648202867Z"
+generated: "2024-06-02T14:54:05.586911736Z"
