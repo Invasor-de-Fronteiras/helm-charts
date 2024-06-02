@@ -1,0 +1,19 @@
+---
+{{- if and .Values.launcherServer.enabled .Values.launcherServer.service.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: {{ template "kelbi.namespace" }}
+  name: {{ template "kelbi.fullname" }}-launcherserver
+  labels:
+    app: {{ template "kelbi.name" }}-launcherserver
+spec:
+  type: {{ .Values.launcherServer.service.type }}
+  ports:
+    - port: {{ .Values.launcherServer.service.port }}
+      targetPort: 80
+      protocol: TCP
+      name: http
+  selector:
+    app: {{ template "kelbi.name" }}-launcherserver
+{{- end -}}
