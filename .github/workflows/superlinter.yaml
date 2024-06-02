@@ -3,7 +3,9 @@ name: Lint Code Base
 # Documentation:
 # https://help.github.com/en/articles/workflow-syntax-for-github-actions
 
-on: pull_request
+on:
+  pull_request:
+  push:
 
 jobs:
   build:
