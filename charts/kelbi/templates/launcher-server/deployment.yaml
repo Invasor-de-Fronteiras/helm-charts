@@ -18,13 +18,43 @@ spec:
     spec:
       volumes:
         - name: configjson
-          secret:
-            secretName: {{ .Values.launcherServer.secretName }}
+          configMap:
+            name: {{ template "kelbi.name" }}-config
       containers:
-      - name: launcherserver
-        image: {{ .Values.launcherServer.image.repository }}:{{ .Values.launcherServer.image.tag }}
-        volumeMounts:
-          - name: configjson
-            readOnly: true
-            mountPath: "/etc/config"
+        - name: launcherserver
+          image: {{ .Values.launcherServer.image.repository }}:{{ .Values.launcherServer.image.tag }}
+          env:
+            - name: ERUPE_LAUNCHER_ENABLED
+              value: "true"
+            - name: ERUPE_DATABASE_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ template "kelbi.name" }}-database-config
+                  key: ERUPE_DATABASE_HOST
+            - name: ERUPE_DATABASE_PORT
+              valueFrom:
+
+                configMapKeyRef:
+                  name: {{ template "kelbi.name" }}-database-config
+                  key: ERUPE_DATABASE_PORT
+            - name: ERUPE_DATABASE_DATABASE
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ template "kelbi.name" }}-database-config
+                  key: ERUPE_DATABASE_DATABASE
+            - name: ERUPE_DATABASE_USER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "kelbi.name" }}-database-secret
+                  key: ERUPE_DATABASE_USER
+            - name: ERUPE_DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "kelbi.name" }}-database-secret
+                  key: ERUPE_DATABASE_PASSWORD
+  
+          volumeMounts:
+            - name: configjson
+              readOnly: true
+              mountPath: "/etc/config"
 {{- end -}}

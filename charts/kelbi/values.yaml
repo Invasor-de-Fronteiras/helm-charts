@@ -12,11 +12,23 @@ fullnameOverride: ""
 
 launcherServer:
   enabled: true
-  secretName: ""
+  secretName: "arca"
   image:
     repository: "ghcr.io/invasor-de-fronteiras/kelbi"
-    tag: "v1.1.2"
+    tag: "v1.2.1"
   service:
     enabled: true
-    type: ClusterIP
-    port: 80
+    type: LoadBalancer
+    port: 8080
+
+postgresql:
+  global:
+    postgresql:
+      auth:
+        username: kelbi
+        password: kelbi
+        database: erupe
+  primary:
+    service:
+      type: LoadBalancer
+      port: 5432

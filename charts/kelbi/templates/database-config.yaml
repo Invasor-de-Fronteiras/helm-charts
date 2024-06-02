@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "kelbi.name" }}-database-config
+data:
+  ERUPE_DATABASE_HOST: {{ template "kelbi.name" }}-postgresql
+  ERUPE_DATABASE_PORT: "{{ .Values.postgresql.primary.service.port }}"
+  ERUPE_DATABASE_DATABASE: {{ .Values.postgresql.global.postgresql.auth.database }}
