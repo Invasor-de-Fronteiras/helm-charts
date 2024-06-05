@@ -1,35 +1,35 @@
 ---
-{{- if .Values.launcherServer.enabled }}
+{{- if .Values.signServer.enabled }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   namespace: {{ template "kelbi.namespace" }}
-  name: {{ template "kelbi.fullname" }}-launcherserver
+  name: {{ template "kelbi.fullname" }}-signserver
   labels:
-    app: {{ template "kelbi.name" }}-launcherserver
+    app: {{ template "kelbi.name" }}-signserver
 spec:
   selector:
     matchLabels:
-      app: {{ template "kelbi.name" }}-launcherserver
+      app: {{ template "kelbi.name" }}-signserver
   template:
     metadata:
       labels:
-        app: {{ template "kelbi.name" }}-launcherserver
+        app: {{ template "kelbi.name" }}-signserver
     spec:
       volumes:
         - name: configjson
           configMap:
             name: {{ template "kelbi.name" }}-config
       containers:
-        - name: launcherserver
-          image: {{ .Values.launcherServer.image.repository }}:{{ .Values.launcherServer.image.tag }}
+        - name: signserver
+          image: {{ .Values.signServer.image.repository }}:{{ .Values.signServer.image.tag }}
           env:
-            - name: ERUPE_LAUNCHER_ENABLED
+            - name: ERUPE_SIGN_ENABLED
               value: "true"
             - name: ERUPE_HOST
               value: {{ .Values.global.host }}
-            - name: ERUPE_SIGN_PORT
-              value: "{{ .Values.signServer.service.port }}"
+            - name: ERUPE_ENTRANCE_PORT
+              value: "{{ .Values.entranceServer.service.port }}"
             - name: ERUPE_DATABASE_HOST
               value: {{ template "kelbi.name" }}-postgresql
             - name: ERUPE_DATABASE_PORT
@@ -46,6 +46,7 @@ spec:
                 secretKeyRef:
                   name: {{ template "kelbi.name" }}-database-secret
                   key: ERUPE_DATABASE_PASSWORD
+  
           volumeMounts:
             - name: configjson
               readOnly: true

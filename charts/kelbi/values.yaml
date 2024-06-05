@@ -10,16 +10,106 @@ namespaceOverride: ""
 ##
 fullnameOverride: ""
 
+global:
+  host: "localhost"
+
 launcherServer:
   enabled: true
-  secretName: "arca"
+  secretName: ""
   image:
     repository: "ghcr.io/invasor-de-fronteiras/kelbi"
-    tag: "v1.2.1"
+    tag: "v1.2.2"
   service:
     enabled: true
     type: LoadBalancer
-    port: 8080
+    port: 80
+
+signServer:
+  enabled: true
+  secretName: ""
+  image:
+    repository: "ghcr.io/invasor-de-fronteiras/kelbi"
+    tag: "v1.2.2"
+  service:
+    enabled: true
+    type: LoadBalancer
+    port: 53312
+
+entranceServer:
+  enabled: true
+  secretName: ""
+  type: LoadBalancer
+  image:
+    repository: "ghcr.io/invasor-de-fronteiras/kelbi"
+    tag: "v1.2.2"
+  service:
+    enabled: true
+    type: LoadBalancer
+    port: 53310
+
+entriesServer:
+  enabled: true
+  secretName: ""
+  image:
+    repository: "ghcr.io/invasor-de-fronteiras/kelbi"
+    tag: "v1.2.2"
+  service:
+    enabled: true
+    type: LoadBalancer
+  entries:
+    - name: "Newbie"
+      description: ""
+      type: 3
+      recommended: 2
+      allowedClientFlags: 0
+      lands:
+        - port: 54001
+          maxPlayers: 100
+
+    - name: "Normal"
+      description: ""
+      type: 1
+      recommended: 0
+      allowedClientFlags: 0
+      lands:
+        - port: 54002
+          maxPlayers: 100
+
+    - name: "Cities"
+      description: ""
+      type: 2
+      recommended: 0
+      allowedClientFlags: 0
+      lands:
+        - port: 54003
+          maxPlayers: 100
+
+    - name: "Tavern"
+      description: ""
+      type: 4
+      recommended: 0
+      allowedClientFlags: 0
+      lands:
+        - port: 54004
+          maxPlayers: 100
+
+    - name: "Return"
+      description: ""
+      type: 5
+      recommended: 0
+      allowedClientFlags: 0
+      lands:
+        - port: 54005
+          maxPlayers: 100
+
+    - name: "MezFes"
+      description: ""
+      type: 6
+      recommended: 6
+      allowedClientFlags: 0
+      lands:
+        - port: 54006
+          maxPlayers: 100
 
 postgresql:
   global:

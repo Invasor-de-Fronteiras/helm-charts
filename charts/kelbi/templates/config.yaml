@@ -141,7 +141,7 @@ data:
       },
       "Sign": {
         "Enabled": false,
-        "Port": 53312
+        "Port": 80
       },
       "SignV2": {
         "Enabled": false,
@@ -155,7 +155,7 @@ data:
         "Name": "Newbie",
         "Description": "",
         "IP": "",
-        "Port": 54001,
+        "Port": 80,
         "Server": 3,
         "Land": 1,
         "MaxPlayers": 100
@@ -163,7 +163,7 @@ data:
       "Entrance": {
         "Enabled": false,
         "GetEntriesFromDatabase": true,
-        "Port": 53310,
+        "Port": 80,
         "Entries": [
           {
             "Name": "Newbie",
@@ -172,9 +172,7 @@ data:
             "Type": 3,
             "Recommended": 2,
             "AllowedClientFlags": 0,
-            "Channels": [
-              { "Port": 54001, "MaxPlayers": 100 }
-            ]
+            "Channels": [{ "Port": 54001, "MaxPlayers": 100 }]
           },
           {
             "Name": "Normal",
@@ -183,10 +181,7 @@ data:
             "Type": 1,
             "Recommended": 0,
             "AllowedClientFlags": 0,
-            "Channels": [
-              { "Port": 54002, "MaxPlayers": 100 },
-              { "Port": 54003, "MaxPlayers": 100 }
-            ]
+            "Channels": [{ "Port": 54002, "MaxPlayers": 100 }]
           },
           {
             "Name": "Cities",
@@ -195,7 +190,7 @@ data:
             "Type": 2,
             "Recommended": 0,
             "AllowedClientFlags": 0,
-            "Channels": [{ "Port": 54004, "MaxPlayers": 100 }]
+            "Channels": [{ "Port": 54003, "MaxPlayers": 100 }]
           },
           {
             "Name": "Tavern",
@@ -204,7 +199,7 @@ data:
             "Type": 4,
             "Recommended": 0,
             "AllowedClientFlags": 0,
-            "Channels": [{ "Port": 54005, "MaxPlayers": 100 }]
+            "Channels": [{ "Port": 54004, "MaxPlayers": 100 }]
           },
           {
             "Name": "Return",
@@ -213,7 +208,7 @@ data:
             "Type": 5,
             "Recommended": 0,
             "AllowedClientFlags": 0,
-            "Channels": [{ "Port": 54006, "MaxPlayers": 100 }]
+            "Channels": [{ "Port": 54005, "MaxPlayers": 100 }]
           },
           {
             "Name": "MezFes",
@@ -222,7 +217,7 @@ data:
             "Type": 6,
             "Recommended": 6,
             "AllowedClientFlags": 0,
-            "Channels": [{ "Port": 54007, "MaxPlayers": 100 }]
+            "Channels": [{ "Port": 54006, "MaxPlayers": 100 }]
           }
         ]
       }
