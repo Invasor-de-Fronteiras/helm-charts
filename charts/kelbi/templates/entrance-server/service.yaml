@@ -1,0 +1,19 @@
+---
+{{- if and .Values.entranceServer.enabled .Values.entranceServer.service.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: {{ template "kelbi.namespace" }}
+  name: {{ template "kelbi.fullname" }}-entranceserver
+  labels:
+    app: {{ template "kelbi.name" }}-entranceserver
+spec:
+  type: {{ .Values.entranceServer.service.type }}
+  ports:
+    - port: {{ .Values.entranceServer.service.port }}
+      targetPort: 80
+      protocol: TCP
+      name: http
+  selector:
+    app: {{ template "kelbi.name" }}-entranceserver
+{{- end -}}
