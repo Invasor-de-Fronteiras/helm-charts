@@ -59,7 +59,7 @@ entriesServer:
   volumes:
     - name: "bin"
       hostPath:
-        path: "C:\\Users\\raina_py7xzzm\\OneDrive\\Área de Trabalho\\arca\\repos\\helm-charts\\charts\\kelbi\\volume\\bin"
+        path: ""
         type: Directory
   volumeMounts:
     - name: "bin"
