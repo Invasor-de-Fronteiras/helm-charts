@@ -42,7 +42,7 @@ data:
         "DisableTokenCheck": false,
         "QuestDebugTools": false,
         "SaveDumps": {
-          "Enabled": true,
+          "Enabled": false,
           "OutputDir": "savedata"
         }
       },

@@ -27,6 +27,7 @@ spec:
         - name: configjson
           configMap:
             name: {{ template "kelbi.name" }}-config
+{{ toYaml $values.entriesServer.volumes | indent 8 }}
       containers:
         - name: entries
           image: {{ $values.entriesServer.image.repository }}:{{ $values.entriesServer.image.tag }}
@@ -59,11 +60,9 @@ spec:
                 secretKeyRef:
                   name: {{ template "kelbi.name" }}-database-secret
                   key: ERUPE_DATABASE_PASSWORD
-  
           volumeMounts:
-            - name: configjson
-              readOnly: true
-              mountPath: "/etc/config"
+{{ toYaml $values.entriesServer.volumeMounts | indent 12 }}
+
 {{- end -}}
 {{- end -}}
 {{- end -}}
