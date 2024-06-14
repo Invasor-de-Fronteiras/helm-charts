@@ -31,6 +31,11 @@ spec:
       containers:
         - name: entries
           image: {{ $values.entriesServer.image.repository }}:{{ $values.entriesServer.image.tag }}
+          {{ if $.Values.global.secretName -}}
+            envFrom:
+            - secretRef:
+                name: {{ $.Values.global.secretName }}
+          {{- end }}
           env:
             - name: ERUPE_ENTRY_ENABLED
               value: "true"
@@ -44,22 +49,6 @@ spec:
               value: "{{ $landId }}"
             - name: ERUPE_HOST
               value: {{ $values.global.host }}
-            - name: ERUPE_DATABASE_HOST
-              value: {{ template "kelbi.name" }}-postgresql
-            - name: ERUPE_DATABASE_PORT
-              value: "{{ $values.postgresql.primary.service.port }}"
-            - name: ERUPE_DATABASE_DATABASE
-              value: {{ $values.postgresql.global.postgresql.auth.database }}
-            - name: ERUPE_DATABASE_USER
-              valueFrom:
-                secretKeyRef:
-                  name: {{ template "kelbi.name" }}-database-secret
-                  key: ERUPE_DATABASE_USER
-            - name: ERUPE_DATABASE_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: {{ template "kelbi.name" }}-database-secret
-                  key: ERUPE_DATABASE_PASSWORD
           volumeMounts:
 {{ toYaml $values.entriesServer.volumeMounts | indent 12 }}
 

@@ -23,6 +23,11 @@ spec:
       containers:
         - name: launcherserver
           image: {{ .Values.launcherServer.image.repository }}:{{ .Values.launcherServer.image.tag }}
+          {{ if $.Values.global.secretName -}}
+          envFrom:
+            - secretRef:
+                name: {{ $.Values.global.secretName }}
+          {{- end }}
           env:
             - name: ERUPE_LAUNCHER_ENABLED
               value: "true"
@@ -30,22 +35,6 @@ spec:
               value: {{ .Values.global.host }}
             - name: ERUPE_SIGN_PORT
               value: "{{ .Values.signServer.service.port }}"
-            - name: ERUPE_DATABASE_HOST
-              value: {{ template "kelbi.name" }}-postgresql
-            - name: ERUPE_DATABASE_PORT
-              value: "{{ .Values.postgresql.primary.service.port }}"
-            - name: ERUPE_DATABASE_DATABASE
-              value: {{ .Values.postgresql.global.postgresql.auth.database }}
-            - name: ERUPE_DATABASE_USER
-              valueFrom:
-                secretKeyRef:
-                  name: {{ template "kelbi.name" }}-database-secret
-                  key: ERUPE_DATABASE_USER
-            - name: ERUPE_DATABASE_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: {{ template "kelbi.name" }}-database-secret
-                  key: ERUPE_DATABASE_PASSWORD
           volumeMounts:
             - name: configjson
               readOnly: true
