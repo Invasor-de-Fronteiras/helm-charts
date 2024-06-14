@@ -50,6 +50,9 @@ spec:
             - name: ERUPE_HOST
               value: {{ $values.global.host }}
           volumeMounts:
+            - name: configjson
+              readOnly: true
+              mountPath: "/etc/config"
 {{ toYaml $values.entriesServer.volumeMounts | indent 12 }}
 
 {{- end -}}
