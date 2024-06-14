@@ -28,6 +28,11 @@ spec:
             - secretRef:
                 name: {{ .Values.global.secretName }}
           {{- end }}
+          env:
+            - name: ERUPE_ENTRANCE_ENABLED
+              value: "true"
+            - name: ERUPE_HOST
+              value: {{ .Values.global.host }}
           volumeMounts:
             - name: configjson
               readOnly: true
