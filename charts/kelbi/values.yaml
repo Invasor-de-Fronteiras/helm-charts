@@ -12,10 +12,10 @@ fullnameOverride: ""
 
 global:
   host: "localhost"
+  secretName: "kelbi-secret"
 
 launcherServer:
   enabled: true
-  secretName: ""
   image:
     repository: "ghcr.io/invasor-de-fronteiras/kelbi"
     tag: "v1.2.2"
@@ -26,7 +26,6 @@ launcherServer:
 
 signServer:
   enabled: true
-  secretName: ""
   image:
     repository: "ghcr.io/invasor-de-fronteiras/kelbi"
     tag: "v1.2.2"
@@ -37,7 +36,6 @@ signServer:
 
 entranceServer:
   enabled: true
-  secretName: ""
   type: LoadBalancer
   image:
     repository: "ghcr.io/invasor-de-fronteiras/kelbi"
@@ -49,7 +47,6 @@ entranceServer:
 
 entriesServer:
   enabled: true
-  secretName: ""
   image:
     repository: "ghcr.io/invasor-de-fronteiras/kelbi"
     tag: "v1.2.2"
@@ -130,3 +127,4 @@ postgresql:
     service:
       type: LoadBalancer
       port: 5432
+
