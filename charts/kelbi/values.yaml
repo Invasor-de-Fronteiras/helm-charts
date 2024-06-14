@@ -117,6 +117,7 @@ entriesServer:
           maxPlayers: 100
 
 postgresql:
+  enabled: true
   global:
     postgresql:
       auth:
