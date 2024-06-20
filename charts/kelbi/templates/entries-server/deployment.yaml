@@ -41,6 +41,10 @@ spec:
               value: "true"
             - name: ERUPE_ENTRY_PORT
               value: "80"
+            - name: ERUPE_SERVERHTTP_ENABLED
+              value: "true"
+            - name: ERUPE_SERVERHTTP_PORT
+              value: "80"
             - name: ERUPE_ENTRY_NAME
               value: {{ $server.name }}
             - name: ERUPE_ENTRY_SERVER
@@ -49,6 +53,10 @@ spec:
               value: "{{ $landId }}"
             - name: ERUPE_HOST
               value: {{ $values.global.host }}
+            {{ if $server.discordEnabled }}
+            - name: ERUPE_DISCORD_ENABLED
+              value: "true"
+            {{ end }}
           volumeMounts:
             - name: configjson
               readOnly: true

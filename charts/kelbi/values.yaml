@@ -14,11 +14,15 @@ global:
   host: "localhost"
   secretName: "kelbi-secret"
 
+patchServer:
+  en: ""
+  jp: ""
+
 launcherServer:
   enabled: true
   image:
     repository: "ghcr.io/invasor-de-fronteiras/kelbi"
-    tag: "v1.2.2"
+    tag: "v1.2.5"
   service:
     enabled: true
     type: LoadBalancer
@@ -28,7 +32,7 @@ signServer:
   enabled: true
   image:
     repository: "ghcr.io/invasor-de-fronteiras/kelbi"
-    tag: "v1.2.2"
+    tag: "v1.2.5"
   service:
     enabled: true
     type: LoadBalancer
@@ -39,7 +43,7 @@ entranceServer:
   type: LoadBalancer
   image:
     repository: "ghcr.io/invasor-de-fronteiras/kelbi"
-    tag: "v1.2.2"
+    tag: "v1.2.5"
   service:
     enabled: true
     type: LoadBalancer
@@ -49,7 +53,7 @@ entriesServer:
   enabled: true
   image:
     repository: "ghcr.io/invasor-de-fronteiras/kelbi"
-    tag: "v1.2.2"
+    tag: "v1.2.5"
   service:
     enabled: true
     type: LoadBalancer
@@ -67,6 +71,7 @@ entriesServer:
       type: 3
       recommended: 2
       allowedClientFlags: 0
+      discordEnabled: false
       lands:
         - port: 54001
           maxPlayers: 100
@@ -76,6 +81,7 @@ entriesServer:
       type: 1
       recommended: 0
       allowedClientFlags: 0
+      discordEnabled: true
       lands:
         - port: 54002
           maxPlayers: 100
@@ -85,6 +91,7 @@ entriesServer:
       type: 2
       recommended: 0
       allowedClientFlags: 0
+      discordEnabled: false
       lands:
         - port: 54003
           maxPlayers: 100
@@ -94,6 +101,7 @@ entriesServer:
       type: 4
       recommended: 0
       allowedClientFlags: 0
+      discordEnabled: false
       lands:
         - port: 54004
           maxPlayers: 100
@@ -103,6 +111,7 @@ entriesServer:
       type: 5
       recommended: 0
       allowedClientFlags: 0
+      discordEnabled: false
       lands:
         - port: 54005
           maxPlayers: 100
@@ -112,6 +121,7 @@ entriesServer:
       type: 6
       recommended: 6
       allowedClientFlags: 0
+      discordEnabled: true
       lands:
         - port: 54006
           maxPlayers: 100

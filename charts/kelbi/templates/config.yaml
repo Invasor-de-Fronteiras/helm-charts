@@ -172,7 +172,7 @@ data:
             "Type": 3,
             "Recommended": 2,
             "AllowedClientFlags": 0,
-            "Channels": [{ "Port": 54001, "MaxPlayers": 100 }]
+            "Channels": [{ "Port": 54001, "MaxPlayers": 0 }]
           },
           {
             "Name": "Normal",
@@ -190,7 +190,7 @@ data:
             "Type": 2,
             "Recommended": 0,
             "AllowedClientFlags": 0,
-            "Channels": [{ "Port": 54003, "MaxPlayers": 100 }]
+            "Channels": [{ "Port": 54003, "MaxPlayers": 0 }]
           },
           {
             "Name": "Tavern",
@@ -199,7 +199,7 @@ data:
             "Type": 4,
             "Recommended": 0,
             "AllowedClientFlags": 0,
-            "Channels": [{ "Port": 54004, "MaxPlayers": 100 }]
+            "Channels": [{ "Port": 54004, "MaxPlayers": 0 }]
           },
           {
             "Name": "Return",
@@ -208,7 +208,7 @@ data:
             "Type": 5,
             "Recommended": 0,
             "AllowedClientFlags": 0,
-            "Channels": [{ "Port": 54005, "MaxPlayers": 100 }]
+            "Channels": [{ "Port": 54005, "MaxPlayers": 0 }]
           },
           {
             "Name": "MezFes",
