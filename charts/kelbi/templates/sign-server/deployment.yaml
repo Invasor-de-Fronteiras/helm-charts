@@ -35,6 +35,14 @@ spec:
               value: {{ .Values.global.host }}
             - name: ERUPE_ENTRANCE_PORT
               value: "{{ .Values.entranceServer.service.port }}"
+            - name: ERUPE_PATCHSERVERS_EN_PATCHSERVERFILE
+              value: "{{ .Values.patchServer.en }}"
+            - name: ERUPE_PATCHSERVERS_EN_PATCHSERVERMANIFEST
+              value: "{{ .Values.patchServer.en }}"
+            - name: ERUPE_PATCHSERVERS_JP_PATCHSERVERFILE
+              value: "{{ .Values.patchServer.jp }}"
+            - name: ERUPE_PATCHSERVERS_JP_PATCHSERVERMANIFEST
+              value: "{{ .Values.patchServer.jp }}"
           volumeMounts:
             - name: configjson
               readOnly: true
