@@ -20,6 +20,7 @@ spec:
         - name: configjson
           configMap:
             name: {{ template "kelbi.name" }}-config
+{{ toYaml .Values.launcherServer.volumes | indent 8 }}
       containers:
         - name: launcherserver
           image: {{ .Values.launcherServer.image.repository }}:{{ .Values.launcherServer.image.tag }}
@@ -39,4 +40,6 @@ spec:
             - name: configjson
               readOnly: true
               mountPath: "/etc/config"
+{{ toYaml .Values.launcherServer.volumeMounts | indent 12 }}
+
 {{- end -}}

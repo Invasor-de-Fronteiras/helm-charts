@@ -27,6 +27,8 @@ launcherServer:
     enabled: true
     type: LoadBalancer
     port: 80
+  volumes:
+  volumeMounts:
 
 signServer:
   enabled: true
