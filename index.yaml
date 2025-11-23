@@ -3,6 +3,21 @@ entries:
   kelbi:
   - apiVersion: v2
     appVersion: 1.16.0
+    created: "2025-11-23T01:33:29.856309876Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 15.4.0
+    description: A Helm chart for Kubernetes
+    digest: 8811d7d1030bf801c0d78f992ee87b5f2a89bb6d729d863aa4f4be4c601190be
+    name: kelbi
+    type: application
+    urls:
+    - https://github.com/Invasor-de-Fronteiras/helm-charts/releases/download/kelbi-3.1.4/kelbi-3.1.4.tgz
+    version: 3.1.4
+  - apiVersion: v2
+    appVersion: 1.16.0
     created: "2024-06-23T17:22:50.976894346Z"
     dependencies:
     - condition: postgresql.enabled
@@ -124,4 +139,4 @@ entries:
     urls:
     - https://github.com/Invasor-de-Fronteiras/helm-charts/releases/download/kelbi-0.2.1/kelbi-0.2.1.tgz
     version: 0.2.1
-generated: "2024-06-23T17:22:50.976923491Z"
+generated: "2025-11-23T01:33:29.856356745Z"
