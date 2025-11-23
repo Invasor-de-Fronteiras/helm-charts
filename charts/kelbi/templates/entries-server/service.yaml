@@ -20,6 +20,12 @@ spec:
       targetPort: 80
       protocol: TCP
       name: http
+    {{ if $values.entriesServer.httpServer.enable }}
+    - port: {{ $server.httpServerPort }}
+      targetPort: 4000
+      protocol: TCP
+      name: http
+    {{ end }}
   selector:
     app: {{ template "kelbi.name" }}-channel-{{ $serverId }}-{{ $landId }}
 {{- end -}}

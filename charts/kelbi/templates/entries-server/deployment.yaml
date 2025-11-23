@@ -41,10 +41,12 @@ spec:
               value: "true"
             - name: ERUPE_ENTRY_PORT
               value: "80"
+            {{ if $values.entriesServer.httpServer.enable }}
             - name: ERUPE_SERVERHTTP_ENABLED
               value: "true"
             - name: ERUPE_SERVERHTTP_PORT
-              value: "80"
+              value: "4000"
+            {{ end }}
             - name: ERUPE_ENTRY_NAME
               value: {{ $server.name }}
             - name: ERUPE_ENTRY_SERVER

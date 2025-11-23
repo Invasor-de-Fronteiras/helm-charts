@@ -59,6 +59,9 @@ entriesServer:
   service:
     enabled: true
     type: LoadBalancer
+  httpServer:
+    enable: true
+    token: "1234"
   volumes:
     - name: "bin"
       hostPath:
@@ -73,6 +76,7 @@ entriesServer:
       type: 3
       recommended: 2
       allowedClientFlags: 0
+      httpServerPort: 4000
       discordEnabled: false
       lands:
         - port: 54001
@@ -83,6 +87,7 @@ entriesServer:
       type: 1
       recommended: 0
       allowedClientFlags: 0
+      httpServerPort: 4001
       discordEnabled: true
       lands:
         - port: 54002
@@ -93,6 +98,7 @@ entriesServer:
       type: 2
       recommended: 0
       allowedClientFlags: 0
+      httpServerPort: 4002
       discordEnabled: false
       lands:
         - port: 54003
@@ -103,6 +109,7 @@ entriesServer:
       type: 4
       recommended: 0
       allowedClientFlags: 0
+      httpServerPort: 4003
       discordEnabled: false
       lands:
         - port: 54004
@@ -113,6 +120,7 @@ entriesServer:
       type: 5
       recommended: 0
       allowedClientFlags: 0
+      httpServerPort: 4004
       discordEnabled: false
       lands:
         - port: 54005
@@ -123,6 +131,7 @@ entriesServer:
       type: 6
       recommended: 6
       allowedClientFlags: 0
+      httpServerPort: 4005
       discordEnabled: true
       lands:
         - port: 54006
