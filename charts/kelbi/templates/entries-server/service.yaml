@@ -24,7 +24,7 @@ spec:
     - port: {{ $server.httpServerPort }}
       targetPort: 4000
       protocol: TCP
-      name: http
+      name: api
     {{ end }}
   selector:
     app: {{ template "kelbi.name" }}-channel-{{ $serverId }}-{{ $landId }}
