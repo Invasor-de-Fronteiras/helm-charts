@@ -61,7 +61,7 @@ entriesServer:
     type: LoadBalancer
   httpServer:
     enable: true
-    token: "1234"
+    token: "12345"
   volumes:
     - name: "bin"
       hostPath:
