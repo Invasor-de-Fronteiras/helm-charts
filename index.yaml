@@ -3,6 +3,16 @@ entries:
   arca-app:
   - apiVersion: v2
     appVersion: 1.16.0
+    created: "2025-11-25T01:02:14.720183221Z"
+    description: A Helm chart for Kubernetes
+    digest: f369b68faad77328cb67af162f866e7fca3193a96098aab4bbd34bd6bbc850c1
+    name: arca-app
+    type: application
+    urls:
+    - https://github.com/Invasor-de-Fronteiras/helm-charts/releases/download/arca-app-2.0.0/arca-app-2.0.0.tgz
+    version: 2.0.0
+  - apiVersion: v2
+    appVersion: 1.16.0
     created: "2025-11-25T00:56:09.769408546Z"
     description: A Helm chart for Kubernetes
     digest: ec71c871a1f5e51e981346d0a2b612ab0b0f5f099ffbb6288e3c99121dfcb5c9
@@ -185,4 +195,4 @@ entries:
     urls:
     - https://github.com/Invasor-de-Fronteiras/helm-charts/releases/download/kelbi-0.2.1/kelbi-0.2.1.tgz
     version: 0.2.1
-generated: "2025-11-25T00:56:09.769439033Z"
+generated: "2025-11-25T01:02:14.720218556Z"
