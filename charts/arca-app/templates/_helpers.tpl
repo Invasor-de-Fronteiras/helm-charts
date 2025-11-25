@@ -11,8 +11,8 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 If release name contains chart name it will be used as a full name.
 */}}
 {{- define "arca-app.fullname" -}}
-{{- if .Values.fullnameOverride }}
-{{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
+{{- if .Values.applicationName }}
+{{- .Values.applicationName | trunc 63 | trimSuffix "-" }}
 {{- else }}
 {{- $name := default .Chart.Name .Values.nameOverride }}
 {{- if contains $name .Release.Name }}
@@ -59,4 +59,37 @@ Create the name of the service account to use
 {{- else }}
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
+{{- end }}
+
+{{/*
+Helper para gerar livenessProbe e readinessProbe.
+Se .Values.livenessProbe ou .Values.readinessProbe estiverem definidos, usa-os diretamente.
+Caso contrário, gera probes httpGet usando .Values.heatlhcheck.path (fallback "/" se não presente) e porta "http".
+Uso: {{ include "arca-app.probes" . | indent 10 }} dentro de um container spec.
+*/}}
+{{- define "arca-app.probes" -}}
+{{- $path := default "/" .Values.heatlhcheck.path -}}
+{{- if or .Values.livenessProbe .Values.readinessProbe -}}
+  {{- if .Values.livenessProbe }}
+livenessProbe:
+{{ toYaml .Values.livenessProbe | indent 2 }}
+  {{- end }}
+  {{- if .Values.readinessProbe }}
+readinessProbe:
+{{ toYaml .Values.readinessProbe | indent 2 }}
+  {{- end }}
+{{- else -}}
+livenessProbe:
+  httpGet:
+    path: {{ $path }}
+    port: http
+  initialDelaySeconds: 10
+  periodSeconds: 10
+readinessProbe:
+  httpGet:
+    path: {{ $path }}
+    port: http
+  initialDelaySeconds: 5
+  periodSeconds: 5
+{{- end -}}
 {{- end }}

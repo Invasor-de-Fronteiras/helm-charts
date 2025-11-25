@@ -1,0 +1,12 @@
+applicationName: "nginx-test"
+ports:
+  - name: http
+    containerPort: 80
+    protocol: TCP
+
+heatlhcheck:
+  path: /
+
+image:
+  repository: nginx
+  tag: "1"
