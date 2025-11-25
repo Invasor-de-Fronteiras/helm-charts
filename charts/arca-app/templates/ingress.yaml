@@ -37,7 +37,7 @@ spec:
               service:
                 name: {{ include "arca-app.fullname" $ }}
                 port:
-                  number: {{ $.Values.service.port }}
+                  number: {{ $.Values.port }}
           {{- end }}
     {{- end }}
 {{- end }}
