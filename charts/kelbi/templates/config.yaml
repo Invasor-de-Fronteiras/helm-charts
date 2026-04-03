@@ -193,7 +193,7 @@ data:
             "Channels": [{ "Port": 54003, "MaxPlayers": 0 }]
           },
           {
-            "Name": "Tavern",
+            "Name": "Dev",
             "Description": "",
             "IP": "",
             "Type": 4,
