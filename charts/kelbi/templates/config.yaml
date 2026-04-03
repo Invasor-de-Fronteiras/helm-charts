@@ -199,7 +199,7 @@ data:
             "Type": 4,
             "Recommended": 0,
             "AllowedClientFlags": 0,
-            "Channels": [{ "Port": 54004, "MaxPlayers": 100 }]
+            "Channels": [{ "Port": 54004, "MaxPlayers": 10 }]
           },
           {
             "Name": "Return",
