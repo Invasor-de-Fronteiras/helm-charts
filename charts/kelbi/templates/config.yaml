@@ -194,7 +194,7 @@ data:
           },
           {
             "Name": "Dev",
-            "Description": "Dev",
+            "Description": "",
             "IP": "",
             "Type": 4,
             "Recommended": 0,
