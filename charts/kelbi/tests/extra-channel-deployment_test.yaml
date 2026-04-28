@@ -1,0 +1,388 @@
+suite: extra-channel deployment
+templates:
+  - templates/extra-channel/deployment.yaml
+tests:
+  - it: renders no Deployment when extraChannels is empty
+    release:
+      name: release-name
+    set:
+      extraChannels: {}
+    asserts:
+      - hasDocuments:
+          count: 0
+
+  - it: renders no Deployment when the channel is disabled
+    release:
+      name: release-name
+    set:
+      extraChannels:
+        foo:
+          enabled: false
+          image:
+            repository: ghcr.io/zerulight/erupe
+            tag: latest
+          host: "1.2.3.4"
+          port: 54010
+          server: 7
+          land: 1
+          name: "Erupe Beta"
+          maxPlayers: 100
+          secretName: ""
+          config: {}
+    asserts:
+      - hasDocuments:
+          count: 0
+
+  - it: renders a Deployment with kind Deployment when enabled
+    release:
+      name: release-name
+    set:
+      extraChannels:
+        foo:
+          enabled: true
+          image:
+            repository: ghcr.io/zerulight/erupe
+            tag: latest
+          host: "1.2.3.4"
+          port: 54010
+          server: 7
+          land: 1
+          name: "Erupe Beta"
+          maxPlayers: 100
+          secretName: ""
+          config: {}
+    asserts:
+      - isKind:
+          of: Deployment
+
+  - it: metadata.name contains the channel key
+    release:
+      name: release-name
+    set:
+      extraChannels:
+        foo:
+          enabled: true
+          image:
+            repository: ghcr.io/zerulight/erupe
+            tag: latest
+          host: "1.2.3.4"
+          port: 54010
+          server: 7
+          land: 1
+          name: "Erupe Beta"
+          maxPlayers: 100
+          secretName: ""
+          config: {}
+    asserts:
+      - matchRegex:
+          path: metadata.name
+          pattern: foo
+
+  - it: container image is repository:tag
+    release:
+      name: release-name
+    set:
+      extraChannels:
+        foo:
+          enabled: true
+          image:
+            repository: ghcr.io/zerulight/erupe
+            tag: latest
+          host: "1.2.3.4"
+          port: 54010
+          server: 7
+          land: 1
+          name: "Erupe Beta"
+          maxPlayers: 100
+          secretName: ""
+          config: {}
+    asserts:
+      - equal:
+          path: spec.template.spec.containers[0].image
+          value: "ghcr.io/zerulight/erupe:latest"
+
+  - it: container name equals the channel key
+    release:
+      name: release-name
+    set:
+      extraChannels:
+        foo:
+          enabled: true
+          image:
+            repository: ghcr.io/zerulight/erupe
+            tag: latest
+          host: "1.2.3.4"
+          port: 54010
+          server: 7
+          land: 1
+          name: "Erupe Beta"
+          maxPlayers: 100
+          secretName: ""
+          config: {}
+    asserts:
+      - equal:
+          path: spec.template.spec.containers[0].name
+          value: foo
+
+  - it: env var ERUPE_ENTRY_ENABLED is "true"
+    release:
+      name: release-name
+    set:
+      extraChannels:
+        foo:
+          enabled: true
+          image:
+            repository: ghcr.io/zerulight/erupe
+            tag: latest
+          host: "1.2.3.4"
+          port: 54010
+          server: 7
+          land: 1
+          name: "Erupe Beta"
+          maxPlayers: 100
+          secretName: ""
+          config: {}
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: ERUPE_ENTRY_ENABLED
+            value: "true"
+
+  - it: env var ERUPE_ENTRY_NAME equals the configured name
+    release:
+      name: release-name
+    set:
+      extraChannels:
+        foo:
+          enabled: true
+          image:
+            repository: ghcr.io/zerulight/erupe
+            tag: latest
+          host: "1.2.3.4"
+          port: 54010
+          server: 7
+          land: 1
+          name: "Erupe Beta"
+          maxPlayers: 100
+          secretName: ""
+          config: {}
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: ERUPE_ENTRY_NAME
+            value: "Erupe Beta"
+
+  - it: env var ERUPE_ENTRY_SERVER equals server as string
+    release:
+      name: release-name
+    set:
+      extraChannels:
+        foo:
+          enabled: true
+          image:
+            repository: ghcr.io/zerulight/erupe
+            tag: latest
+          host: "1.2.3.4"
+          port: 54010
+          server: 7
+          land: 1
+          name: "Erupe Beta"
+          maxPlayers: 100
+          secretName: ""
+          config: {}
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: ERUPE_ENTRY_SERVER
+            value: "7"
+
+  - it: env var ERUPE_ENTRY_LAND equals land as string
+    release:
+      name: release-name
+    set:
+      extraChannels:
+        foo:
+          enabled: true
+          image:
+            repository: ghcr.io/zerulight/erupe
+            tag: latest
+          host: "1.2.3.4"
+          port: 54010
+          server: 7
+          land: 1
+          name: "Erupe Beta"
+          maxPlayers: 100
+          secretName: ""
+          config: {}
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: ERUPE_ENTRY_LAND
+            value: "1"
+
+  - it: env var ERUPE_HOST equals the configured host
+    release:
+      name: release-name
+    set:
+      extraChannels:
+        foo:
+          enabled: true
+          image:
+            repository: ghcr.io/zerulight/erupe
+            tag: latest
+          host: "1.2.3.4"
+          port: 54010
+          server: 7
+          land: 1
+          name: "Erupe Beta"
+          maxPlayers: 100
+          secretName: ""
+          config: {}
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: ERUPE_HOST
+            value: "1.2.3.4"
+
+  - it: volume configjson is mounted from the correct ConfigMap
+    release:
+      name: release-name
+    set:
+      extraChannels:
+        foo:
+          enabled: true
+          image:
+            repository: ghcr.io/zerulight/erupe
+            tag: latest
+          host: "1.2.3.4"
+          port: 54010
+          server: 7
+          land: 1
+          name: "Erupe Beta"
+          maxPlayers: 100
+          secretName: ""
+          config: {}
+    asserts:
+      - contains:
+          path: spec.template.spec.volumes
+          content:
+            name: configjson
+            configMap:
+              name: kelbi-foo-config
+
+  - it: volumeMount mounts configjson at /etc/config
+    release:
+      name: release-name
+    set:
+      extraChannels:
+        foo:
+          enabled: true
+          image:
+            repository: ghcr.io/zerulight/erupe
+            tag: latest
+          host: "1.2.3.4"
+          port: 54010
+          server: 7
+          land: 1
+          name: "Erupe Beta"
+          maxPlayers: 100
+          secretName: ""
+          config: {}
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].volumeMounts
+          content:
+            name: configjson
+            readOnly: true
+            mountPath: "/etc/config"
+
+  - it: envFrom references the secretRef when secretName is set
+    release:
+      name: release-name
+    set:
+      extraChannels:
+        foo:
+          enabled: true
+          image:
+            repository: ghcr.io/zerulight/erupe
+            tag: latest
+          host: "1.2.3.4"
+          port: 54010
+          server: 7
+          land: 1
+          name: "Erupe Beta"
+          maxPlayers: 100
+          secretName: "my-secret"
+          config: {}
+    asserts:
+      - equal:
+          path: spec.template.spec.containers[0].envFrom[0].secretRef.name
+          value: "my-secret"
+
+  - it: envFrom is absent when secretName is empty
+    release:
+      name: release-name
+    set:
+      extraChannels:
+        foo:
+          enabled: true
+          image:
+            repository: ghcr.io/zerulight/erupe
+            tag: latest
+          host: "1.2.3.4"
+          port: 54010
+          server: 7
+          land: 1
+          name: "Erupe Beta"
+          maxPlayers: 100
+          secretName: ""
+          config: {}
+    asserts:
+      - notExists:
+          path: spec.template.spec.containers[0].envFrom
+
+  - it: two enabled channels produce two distinct Deployments
+    release:
+      name: release-name
+    set:
+      extraChannels:
+        alpha:
+          enabled: true
+          image:
+            repository: ghcr.io/zerulight/erupe
+            tag: latest
+          host: "1.2.3.4"
+          port: 54010
+          server: 7
+          land: 1
+          name: "Alpha"
+          maxPlayers: 100
+          secretName: ""
+          config: {}
+        beta:
+          enabled: true
+          image:
+            repository: ghcr.io/zerulight/erupe
+            tag: v2
+          host: "5.6.7.8"
+          port: 54020
+          server: 8
+          land: 2
+          name: "Beta"
+          maxPlayers: 50
+          secretName: ""
+          config: {}
+    asserts:
+      - hasDocuments:
+          count: 2
+      - isKind:
+          of: Deployment
+        documentIndex: 0
+      - isKind:
+          of: Deployment
+        documentIndex: 1

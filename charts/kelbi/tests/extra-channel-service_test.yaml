@@ -1,0 +1,124 @@
+suite: extra-channel service
+templates:
+  - templates/extra-channel/service.yaml
+tests:
+  - it: should render no Service when extraChannels is empty
+    release:
+      name: release-name
+      namespace: default
+    set:
+      extraChannels: {}
+    asserts:
+      - hasDocuments:
+          count: 0
+
+  - it: should render no Service when the channel is disabled
+    release:
+      name: release-name
+      namespace: default
+    set:
+      extraChannels:
+        foo:
+          enabled: false
+          image:
+            repository: ghcr.io/zerulight/erupe
+            tag: latest
+          host: "1.2.3.4"
+          port: 54010
+          server: 7
+          land: 1
+          name: "Erupe Beta"
+          maxPlayers: 100
+          secretName: ""
+          config: {}
+    asserts:
+      - hasDocuments:
+          count: 0
+
+  - it: should render a Service with correct spec when channel is enabled
+    release:
+      name: release-name
+      namespace: default
+    set:
+      extraChannels:
+        foo:
+          enabled: true
+          image:
+            repository: ghcr.io/zerulight/erupe
+            tag: latest
+          host: "1.2.3.4"
+          port: 54010
+          server: 7
+          land: 1
+          name: "Erupe Beta"
+          maxPlayers: 100
+          secretName: ""
+          config: {}
+    asserts:
+      - hasDocuments:
+          count: 1
+      - isKind:
+          of: Service
+        documentIndex: 0
+      - equal:
+          path: spec.type
+          value: LoadBalancer
+        documentIndex: 0
+      - equal:
+          path: spec.ports[0].port
+          value: 54010
+        documentIndex: 0
+      - equal:
+          path: spec.ports[0].targetPort
+          value: 80
+        documentIndex: 0
+      - equal:
+          path: spec.ports[0].protocol
+          value: TCP
+        documentIndex: 0
+      - isNotNull:
+          path: spec.selector
+        documentIndex: 0
+      - matchRegex:
+          path: spec.selector.app
+          pattern: foo
+        documentIndex: 0
+
+  - it: should use the channel key in both metadata.name and spec.selector
+    release:
+      name: release-name
+      namespace: default
+    set:
+      extraChannels:
+        foo:
+          enabled: true
+          image:
+            repository: ghcr.io/zerulight/erupe
+            tag: latest
+          host: "1.2.3.4"
+          port: 54010
+          server: 7
+          land: 1
+          name: "Erupe Beta"
+          maxPlayers: 100
+          secretName: ""
+          config: {}
+    asserts:
+      - hasDocuments:
+          count: 1
+      - matchRegex:
+          path: metadata.name
+          pattern: foo
+        documentIndex: 0
+      - matchRegex:
+          path: spec.selector.app
+          pattern: foo
+        documentIndex: 0
+      - equal:
+          path: metadata.name
+          value: kelbi-foo
+        documentIndex: 0
+      - equal:
+          path: spec.selector.app
+          value: kelbi-foo
+        documentIndex: 0

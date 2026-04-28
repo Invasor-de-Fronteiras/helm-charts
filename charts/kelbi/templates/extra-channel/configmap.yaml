@@ -1,0 +1,15 @@
+---
+{{- range $key, $ch := .Values.extraChannels }}
+{{- if $ch.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: {{ template "kelbi.namespace" $ }}
+  name: {{ template "kelbi.name" $ }}-{{ $key }}-config
+  labels:
+    app: {{ template "kelbi.name" $ }}-{{ $key }}
+data:
+  config.json: {{ $ch.config | toJson | quote }}
+---
+{{- end }}
+{{- end }}

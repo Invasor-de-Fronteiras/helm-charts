@@ -1,0 +1,51 @@
+---
+{{- range $key, $ch := .Values.extraChannels }}
+{{- if $ch.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: {{ template "kelbi.namespace" $ }}
+  name: {{ template "kelbi.fullname" $ }}-{{ $key }}
+  labels:
+    app: {{ template "kelbi.name" $ }}-{{ $key }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ template "kelbi.name" $ }}-{{ $key }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "kelbi.name" $ }}-{{ $key }}
+    spec:
+      volumes:
+        - name: configjson
+          configMap:
+            name: {{ template "kelbi.name" $ }}-{{ $key }}-config
+      containers:
+        - name: {{ $key }}
+          image: {{ $ch.image.repository }}:{{ $ch.image.tag }}
+          {{- if $ch.secretName }}
+          envFrom:
+            - secretRef:
+                name: {{ $ch.secretName }}
+          {{- end }}
+          env:
+            - name: ERUPE_ENTRY_ENABLED
+              value: "true"
+            - name: ERUPE_ENTRY_PORT
+              value: "80"
+            - name: ERUPE_ENTRY_NAME
+              value: {{ $ch.name | quote }}
+            - name: ERUPE_ENTRY_SERVER
+              value: {{ $ch.server | toString | quote }}
+            - name: ERUPE_ENTRY_LAND
+              value: {{ $ch.land | toString | quote }}
+            - name: ERUPE_HOST
+              value: {{ $ch.host | quote }}
+          volumeMounts:
+            - name: configjson
+              readOnly: true
+              mountPath: "/etc/config"
+---
+{{- end }}
+{{- end }}

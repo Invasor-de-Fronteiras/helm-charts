@@ -218,7 +218,16 @@ data:
             "Recommended": 6,
             "AllowedClientFlags": 0,
             "Channels": [{ "Port": 54006, "MaxPlayers": 100 }]
-          }
+          }{{ range $key, $ch := .Values.extraChannels }}{{ if $ch.enabled }},
+          {
+            "Name": {{ $ch.name | quote }},
+            "Description": "",
+            "IP": {{ $ch.host | quote }},
+            "Type": {{ $ch.server }},
+            "Recommended": 0,
+            "AllowedClientFlags": 0,
+            "Channels": [{ "Port": {{ $ch.port }}, "MaxPlayers": {{ $ch.maxPlayers }} }]
+          }{{ end }}{{ end }}
         ]
       }
     }

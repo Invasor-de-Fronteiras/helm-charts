@@ -137,6 +137,25 @@ entriesServer:
         - port: 54006
           maxPlayers: 100
 
+# extraChannels: map of key → channel config.
+# Each key becomes the K8s resource name suffix (e.g. "erupe-beta" → kelbi-erupe-beta).
+# Example:
+# extraChannels:
+#   erupe-beta:
+#     enabled: true
+#     image:
+#       repository: ghcr.io/zerulight/erupe
+#       tag: latest
+#     host: "1.2.3.4"
+#     port: 54010
+#     server: 7
+#     land: 1
+#     name: "Erupe Beta"
+#     maxPlayers: 100
+#     secretName: erupe-database-secret
+#     config: {}
+extraChannels: {}
+
 postgresql:
   enabled: true
   global:
