@@ -41,6 +41,18 @@ entries:
     urls:
     - https://github.com/Invasor-de-Fronteiras/helm-charts/releases/download/arca-app-0.1.0/arca-app-0.1.0.tgz
     version: 0.1.0
+  erupe:
+  - apiVersion: v2
+    appVersion: latest
+    created: "2026-04-29T02:30:23.153081925Z"
+    description: Single-deployment chart for Erupe (MHF server) — all servers in one
+      Pod
+    digest: 25b4199c3bc026619d23d309abbc9b7583a85c914859e304000716c53ebfd76c
+    name: erupe
+    type: application
+    urls:
+    - https://github.com/Invasor-de-Fronteiras/helm-charts/releases/download/erupe-0.1.0/erupe-0.1.0.tgz
+    version: 0.1.0
   kelbi:
   - apiVersion: v2
     appVersion: 1.16.0
@@ -225,4 +237,4 @@ entries:
     urls:
     - https://github.com/Invasor-de-Fronteiras/helm-charts/releases/download/kelbi-0.2.1/kelbi-0.2.1.tgz
     version: 0.2.1
-generated: "2026-04-28T23:59:29.174097285Z"
+generated: "2026-04-29T02:30:23.153119991Z"
