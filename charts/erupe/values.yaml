@@ -4,7 +4,7 @@ image:
   tag: ""
 
 # Imagem do init container para merge de config com secret
-initImage: "ghcr.io/jqlang/jq:latest"
+initImage: "ghcr.io/invasor-de-fronteiras/dockerimage-toolkit:v1.1.0"
 
 # IP público anunciado aos clientes
 host: ""

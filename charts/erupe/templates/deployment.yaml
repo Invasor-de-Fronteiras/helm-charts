@@ -71,9 +71,6 @@ spec:
           configMap:
             name: {{ template "erupe.name" . }}-config
         {{- if .Values.secretName }}
-        - name: config-secret
-          secret:
-            secretName: {{ .Values.secretName }}
         {{- end }}
         - name: config-final
           emptyDir: {}
@@ -83,23 +80,41 @@ spec:
         - name: config-merge
           image: {{ .Values.initImage }}
           command: ["sh", "-c"]
+          envFrom:
+            - secretRef:
+                name: {{ .Values.secretName }}
           args:
             - |
-              read_secret() { cat "/secret/$1" 2>/dev/null || cat "/secret/$2" 2>/dev/null || echo "${3:-}"; }
+              #!/usr/bin/env bash
+
+              read_secret() {
+                local primary="$1"
+                local fallback="$2"
+                local default="${3:-}"
+
+                echo "${!primary:-${!fallback:-$default}}"
+              }
+
               jq \
                 --arg host     "$(read_secret ERUPE_DATABASE_HOST DATABASE_HOST)" \
                 --arg user     "$(read_secret ERUPE_DATABASE_USER DATABASE_USER)" \
                 --arg password "$(read_secret ERUPE_DATABASE_PASSWORD DATABASE_PASSWORD)" \
-                --arg port     "$(read_secret ERUPE_DATABASE_PORT DATABASE_PORT 5432)" \
-                --arg database "$(read_secret ERUPE_DATABASE_DATABASE DATABASE_DATABASE erupe)" \
-                '. * {database: {Host: $host, User: $user, Password: $password, Port: ($port | tonumber), Database: $database}}' \
-                /config-base/config.json > /config/config.json
+                --arg port     "$(read_secret ERUPE_DATABASE_PORT DATABASE_PORT)" \
+                --arg database "$(read_secret ERUPE_DATABASE_DATABASE DATABASE_DATABASE)" \
+                '. * {
+                  database: {
+                    Host: $host,
+                    User: $user,
+                    Password: $password,
+                    Port: $port,
+                    Database: $database
+                  }
+                }' \
+               /config-base/config.json > /config/config.json
           volumeMounts:
             - name: config-base
               mountPath: /config-base
               readOnly: true
-            - name: config-secret
-              mountPath: /secret
               readOnly: true
             - name: config-final
               mountPath: /config
