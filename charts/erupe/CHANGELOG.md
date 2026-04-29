@@ -1,5 +1,14 @@
 # Changelog — erupe
 
+## [0.1.2] - 2026-04-29
+
+### Fixed
+- Remove shebang from init container script
+- Use bash for init container command and correct image tag format
+- Update config mount path and add `subPath` for init container volume mount
+
+---
+
 ## [0.1.1] - 2026-04-29
 
 ### Fixed
