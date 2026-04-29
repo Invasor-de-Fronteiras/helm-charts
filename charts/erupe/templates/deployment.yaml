@@ -85,7 +85,6 @@ spec:
                 name: {{ .Values.secretName }}
           args:
             - |
-              #!/usr/bin/env bash
 
               read_secret() {
                 local primary="$1"
