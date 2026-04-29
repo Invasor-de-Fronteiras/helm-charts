@@ -44,6 +44,17 @@ entries:
   erupe:
   - apiVersion: v2
     appVersion: latest
+    created: "2026-04-29T05:06:45.88334952Z"
+    description: Single-deployment chart for Erupe (MHF server) — all servers in one
+      Pod
+    digest: 9da9d07fa013b2cd3e7aea090a95c1e2bca2efcb6ad158caf22cdab80216c91b
+    name: erupe
+    type: application
+    urls:
+    - https://github.com/Invasor-de-Fronteiras/helm-charts/releases/download/erupe-0.1.2/erupe-0.1.2.tgz
+    version: 0.1.2
+  - apiVersion: v2
+    appVersion: latest
     created: "2026-04-29T04:43:17.423631046Z"
     description: Single-deployment chart for Erupe (MHF server) — all servers in one
       Pod
@@ -248,4 +259,4 @@ entries:
     urls:
     - https://github.com/Invasor-de-Fronteiras/helm-charts/releases/download/kelbi-0.2.1/kelbi-0.2.1.tgz
     version: 0.2.1
-generated: "2026-04-29T04:43:17.423680931Z"
+generated: "2026-04-29T05:06:45.883394678Z"
