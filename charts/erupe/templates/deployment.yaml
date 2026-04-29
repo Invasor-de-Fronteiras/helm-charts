@@ -79,7 +79,7 @@ spec:
       initContainers:
         - name: config-merge
           image: {{ .Values.initImage }}
-          command: ["sh", "-c"]
+          command: ["bash", "-c"]
           envFrom:
             - secretRef:
                 name: {{ .Values.secretName }}
