@@ -115,7 +115,6 @@ spec:
             - name: config-base
               mountPath: /config-base
               readOnly: true
-              readOnly: true
             - name: config-final
               mountPath: /config
       {{- end }}
