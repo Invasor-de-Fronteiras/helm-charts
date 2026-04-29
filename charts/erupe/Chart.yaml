@@ -1,0 +1,11 @@
+apiVersion: v2
+name: erupe
+description: Single-deployment chart for Erupe (MHF server) — all servers in one Pod
+
+type: application
+
+version: 0.1.0
+
+appVersion: "latest"
+
+dependencies: []

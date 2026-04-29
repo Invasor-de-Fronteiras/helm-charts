@@ -1,0 +1,33 @@
+suite: Deployment tests
+templates:
+  - deployment.yaml
+tests:
+  - it: should create deployment with correct name
+    asserts:
+      - equal:
+          path: metadata.name
+          value: erupe
+      - equal:
+          path: spec.replicas
+          value: 1
+
+  - it: should mount config-final volume when secretName is set
+    set:
+      secretName: "erupe-db-secret"
+    asserts:
+      - equal:
+          path: spec.template.spec.initContainers[0].name
+          value: config-merge
+      - equal:
+          path: spec.template.spec.containers[0].volumeMounts[0].name
+          value: config-final
+
+  - it: should mount config-base volume when secretName is not set
+    set:
+      secretName: ""
+    asserts:
+      - hasDocuments:
+          count: 1
+      - equal:
+          path: spec.template.spec.containers[0].volumeMounts[0].name
+          value: config-base

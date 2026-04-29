@@ -1,0 +1,132 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "erupe.fullname" . }}
+  namespace: {{ template "erupe.namespace" . }}
+spec:
+  replicas: {{ .Values.replicas }}
+  selector:
+    matchLabels:
+      app: {{ template "erupe.name" . }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "erupe.name" . }}
+    spec:
+      securityContext:
+        runAsNonRoot: {{ .Values.securityContext.runAsNonRoot }}
+        runAsUser: {{ .Values.securityContext.runAsUser }}
+        fsGroup: {{ .Values.securityContext.fsGroup }}
+      containers:
+        - name: erupe
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.imagePullPolicy }}
+          {{- with .Values.containerSecurityContext }}
+          securityContext:
+            {{- with .capabilities }}
+            capabilities:
+              {{- toYaml . | nindent 14 }}
+            {{- end }}
+            allowPrivilegeEscalation: {{ .allowPrivilegeEscalation }}
+            readOnlyRootFilesystem: {{ .readOnlyRootFilesystem }}
+            privileged: {{ .privileged }}
+          {{- end }}
+          volumeMounts:
+            - name: {{ if .Values.secretName }}config-final{{ else }}config-base{{ end }}
+              mountPath: /etc/config
+              readOnly: true
+          {{- with .Values.resources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.livenessProbe }}
+          {{- if .enabled }}
+          livenessProbe:
+            tcpSocket:
+              port: {{ .port | default 53310 }}
+            initialDelaySeconds: {{ .initialDelaySeconds }}
+            periodSeconds: {{ .periodSeconds }}
+            timeoutSeconds: {{ .timeoutSeconds }}
+            failureThreshold: {{ .failureThreshold }}
+          {{- end }}
+          {{- end }}
+          {{- with .Values.readinessProbe }}
+          {{- if .enabled }}
+          readinessProbe:
+            tcpSocket:
+              port: {{ .port | default 53310 }}
+            initialDelaySeconds: {{ .initialDelaySeconds }}
+            periodSeconds: {{ .periodSeconds }}
+            timeoutSeconds: {{ .timeoutSeconds }}
+            failureThreshold: {{ .failureThreshold }}
+          {{- end }}
+          {{- end }}
+          {{- with .Values.env }}
+          env:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+
+      volumes:
+        - name: config-base
+          configMap:
+            name: {{ template "erupe.name" . }}-config
+        {{- if .Values.secretName }}
+        - name: config-secret
+          secret:
+            secretName: {{ .Values.secretName }}
+        {{- end }}
+        - name: config-final
+          emptyDir: {}
+
+      {{- if .Values.secretName }}
+      initContainers:
+        - name: config-merge
+          image: {{ .Values.initImage }}
+          command: ["sh", "-c"]
+          args:
+            - |
+              read_secret() { cat "/secret/$1" 2>/dev/null || cat "/secret/$2" 2>/dev/null || echo "${3:-}"; }
+              jq \
+                --arg host     "$(read_secret ERUPE_DATABASE_HOST DATABASE_HOST)" \
+                --arg user     "$(read_secret ERUPE_DATABASE_USER DATABASE_USER)" \
+                --arg password "$(read_secret ERUPE_DATABASE_PASSWORD DATABASE_PASSWORD)" \
+                --arg port     "$(read_secret ERUPE_DATABASE_PORT DATABASE_PORT 5432)" \
+                --arg database "$(read_secret ERUPE_DATABASE_DATABASE DATABASE_DATABASE erupe)" \
+                '. * {database: {Host: $host, User: $user, Password: $password, Port: ($port | tonumber), Database: $database}}' \
+                /config-base/config.json > /config/config.json
+          volumeMounts:
+            - name: config-base
+              mountPath: /config-base
+              readOnly: true
+            - name: config-secret
+              mountPath: /secret
+              readOnly: true
+            - name: config-final
+              mountPath: /config
+      {{- end }}
+
+      {{- with .Values.volumes }}
+          {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.topologySpreadConstraints }}
+      topologySpreadConstraints:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      hostNetwork: {{ .Values.hostNetwork }}
+      dnsPolicy: {{ .Values.dnsPolicy }}
+      {{- with .Values.dnsConfig }}
+      dnsConfig:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

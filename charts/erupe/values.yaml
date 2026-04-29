@@ -1,0 +1,112 @@
+# Imagem do container principal
+image:
+  repository: ""
+  tag: ""
+
+# Imagem do init container para merge de config com secret
+initImage: "ghcr.io/jqlang/jq:latest"
+
+# IP público anunciado aos clientes
+host: ""
+
+# Secret com credenciais do banco (ERUPE_DATABASE_HOST ou DATABASE_HOST)
+secretName: ""
+
+# Extra objects globais (CRDs, adicionais)
+extraObjects: []
+# - apiVersion: v1
+#   kind: ConfigMap
+#   metadata:
+#     name: global-config
+#   data:
+#     global.conf: |
+#       key: value
+
+# Configurações globais do deployment (single deployment para todos os servidores)
+replicas: 1
+imagePullPolicy: IfNotPresent
+resources:
+  limits: {}
+  requests: {}
+securityContext:
+  runAsNonRoot: false
+  runAsUser: 0
+  fsGroup: 0
+containerSecurityContext:
+  capabilities: {}
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: false
+  privileged: false
+volumes: []
+livenessProbe:
+  enabled: true
+  initialDelaySeconds: 30
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 3
+readinessProbe:
+  enabled: true
+  initialDelaySeconds: 10
+  periodSeconds: 5
+  timeoutSeconds: 3
+  failureThreshold: 3
+affinity: {}
+nodeSelector: {}
+tolerations: []
+topologySpreadConstraints: []
+hostNetwork: false
+dnsPolicy: ClusterFirst
+dnsConfig: {}
+env: []
+
+# Servidores habilitados (apenas enabled + service config)
+sign:
+  enabled: true
+  service:
+    type: LoadBalancer
+    port: 53312
+
+entrance:
+  enabled: true
+  service:
+    type: LoadBalancer
+    port: 53310
+
+api:
+  enabled: false
+  service:
+    type: ClusterIP
+    port: 8080
+
+# Channels: lista de channel servers (simplificado)
+channels:
+  - port: 54001
+    maxPlayers: 100
+    service:
+      type: LoadBalancer
+  - port: 54002
+    maxPlayers: 100
+
+# Configuração base do Erupe (config.json sem Database — vem do Secret)
+# Campos Database são injetados pelo init container
+config:
+  Language: "jp"
+  ClientMode: "ZZ"
+  AutoCreateAccount: false
+  HideLoginNotice: true
+  LoginNotices:
+    - "<BODY><CENTER>Bem-vindo!"
+  Sign:
+    Enabled: true
+  Entrance:
+    Enabled: true
+    Entries:
+      - Name: "Normal"
+        Type: 1
+        Recommended: 0
+        AllowedClientFlags: 0
+        Channels: []
+  Channel:
+    Enabled: true
+  API:
+    Enabled: false

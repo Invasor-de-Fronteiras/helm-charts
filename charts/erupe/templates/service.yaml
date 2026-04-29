@@ -1,0 +1,63 @@
+{{- if .Values.sign.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "erupe.fullname" . }}-sign
+spec:
+  type: {{ .Values.sign.service.type | default "LoadBalancer" }}
+  ports:
+    - name: sign
+      port: {{ .Values.sign.service.port | default 53312 }}
+      targetPort: {{ .Values.sign.service.port | default 53312 }}
+      protocol: TCP
+  selector:
+    app: {{ template "erupe.name" . }}
+{{- end }}
+---
+{{- if .Values.entrance.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "erupe.fullname" . }}-entrance
+spec:
+  type: {{ .Values.entrance.service.type | default "LoadBalancer" }}
+  ports:
+    - name: entrance
+      port: {{ .Values.entrance.service.port | default 53310 }}
+      targetPort: {{ .Values.entrance.service.port | default 53310 }}
+      protocol: TCP
+  selector:
+    app: {{ template "erupe.name" . }}
+{{- end }}
+---
+{{- range $i, $ch := .Values.channels }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "erupe.fullname" $ }}-channel-{{ $i }}
+spec:
+  type: {{ (index $ch "service").type | default "LoadBalancer" }}
+  ports:
+    - name: channel-{{ $i }}
+      port: {{ $ch.port }}
+      targetPort: {{ $ch.port }}
+      protocol: TCP
+  selector:
+    app: {{ template "erupe.name" $ }}
+---
+{{- end }}
+{{- if .Values.api.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "erupe.fullname" . }}-api
+spec:
+  type: {{ .Values.api.service.type | default "ClusterIP" }}
+  ports:
+    - name: api
+      port: {{ .Values.api.service.port | default 8080 }}
+      targetPort: {{ .Values.api.service.port | default 8080 }}
+      protocol: TCP
+  selector:
+    app: {{ template "erupe.name" . }}
+{{- end }}

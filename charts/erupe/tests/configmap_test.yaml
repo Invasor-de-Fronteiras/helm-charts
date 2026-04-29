@@ -1,0 +1,31 @@
+suite: ConfigMap tests
+templates:
+  - configmap.yaml
+tests:
+  - it: should create configmap with correct name
+    asserts:
+      - equal:
+          path: metadata.name
+          value: erupe-config
+      - matchRegex:
+          path: data["config.json"]
+          pattern: '"Language":"jp"'
+      - matchRegex:
+          path: data["config.json"]
+          pattern: '"AutoCreateAccount":false'
+      - matchRegex:
+          path: data["config.json"]
+          pattern: '"Sign":{"Enabled":true}'
+
+  - it: should include custom config values
+    set:
+      config:
+        Language: "en"
+        AutoCreateAccount: true
+    asserts:
+      - matchRegex:
+          path: data["config.json"]
+          pattern: '"Language":"en"'
+      - matchRegex:
+          path: data["config.json"]
+          pattern: '"AutoCreateAccount":true'

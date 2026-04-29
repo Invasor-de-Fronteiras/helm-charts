@@ -1,0 +1,74 @@
+suite: Service tests
+templates:
+  - service.yaml
+tests:
+  - it: should create sign service when sign.enabled is true
+    set:
+      sign.enabled: true
+      sign.service.type: LoadBalancer
+      sign.service.port: 53312
+      entrance.enabled: false
+      channels: []
+      api.enabled: false
+    documentIndex: 0
+    asserts:
+      - equal:
+          path: kind
+          value: Service
+      - equal:
+          path: metadata.name
+          value: erupe-sign
+      - equal:
+          path: spec.type
+          value: LoadBalancer
+      - equal:
+          path: spec.ports[0].port
+          value: 53312
+
+  - it: should create entrance service when entrance.enabled is true
+    set:
+      sign.enabled: false
+      entrance.enabled: true
+      entrance.service.type: LoadBalancer
+      entrance.service.port: 53310
+      channels: []
+      api.enabled: false
+    documentIndex: 0
+    asserts:
+      - equal:
+          path: metadata.name
+          value: erupe-entrance
+      - equal:
+          path: spec.ports[0].port
+          value: 53310
+
+  - it: should not create any service when all are disabled
+    set:
+      sign.enabled: false
+      entrance.enabled: false
+      channels: []
+      api.enabled: false
+    asserts:
+      - hasDocuments:
+          count: 0
+
+  - it: should create channel service from channels list
+    set:
+      sign.enabled: false
+      entrance.enabled: false
+      channels:
+        - port: 54001
+          service:
+            type: LoadBalancer
+      api.enabled: false
+    documentIndex: 0
+    asserts:
+      - equal:
+          path: metadata.name
+          value: erupe-channel-0
+      - equal:
+          path: spec.type
+          value: LoadBalancer
+      - equal:
+          path: spec.ports[0].port
+          value: 54001
