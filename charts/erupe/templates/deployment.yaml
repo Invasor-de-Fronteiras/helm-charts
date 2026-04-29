@@ -33,7 +33,8 @@ spec:
           {{- end }}
           volumeMounts:
             - name: {{ if .Values.secretName }}config-final{{ else }}config-base{{ end }}
-              mountPath: /etc/config
+              mountPath: /app/config.json
+              subPath: config.json
               readOnly: true
           {{- with .Values.resources }}
           resources:
